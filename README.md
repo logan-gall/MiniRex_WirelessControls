@@ -151,18 +151,9 @@ The second section of wiring is for the Raspberry Pi Pico device and the RX chip
 # Code
 
 ## Jupyter Notebooks
-Jupyter Notebooks are used for rapid prototyping and testing. Example notebooks include:
-- **Input Mapping**: Reads input device data and generates CRSF packets.
-- **Packet Decoding**: Decodes CRSF packets on the RX side and maps outputs to connected devices.
-- **Range Testing**: Logs signal strength and latency metrics.
 
 ## Python Scripts
-- **`tx_script.py`**:
-   - Collects input data and sends CRSF packets to the ELRS module.
-- **`rx_script.py`**:
-   - Decodes received CRSF packets and controls output devices.
-- **`calibration.py`**:
-   - Calibrates input devices (e.g., joysticks) and configures channel mappings.
+
 
 
 # Acknowledgements & References
