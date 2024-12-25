@@ -39,7 +39,7 @@ The primary goal of Mini Rex is to have an easily implementable solution to wire
 Mini Rex uses a Python program to parse input from a Gamepad/Joystick input on a input processing computer.
 This program sends CRSF signal data to a Drone Control Transmitter (TX) over serial.
 The transmitter wirelessly sends data to the Drone Control Receiver (RX), which outputs the CRSF signal to a Raspberry Pi Pico.
-The Pico runs a C++ program which interprets the data, outputting either an emulated Joystick signal or PWM signals to the final output device.
+The Pico runs a C++ program which interprets the data, outputting either an emulated Joystick signals to the final output device.
 
 ## Requirements
 
@@ -148,26 +148,66 @@ The second section of wiring is for the Raspberry Pi Pico device and the RX chip
 
 ![Pico Wiring Diagram](./images/picowiring.png)
 
+### PWM Output
+
+If you would like PWM output for your device, at the moment, purchase a RX chip that is compatible with PWM out (Radiomaster ER8, Most TBS RX), or adapt the CapnBry [CRServoF](https://github.com/CapnBry/CRServoF) repository code to complete functionality with Raspberry Pi Pico. This is a future anticipated feature.
+
+
 # Code
 
-## Jupyter Notebooks
+## TX Side
 
-## Python Scripts
+The Python transmission software can be run either as an interactive PyGame script, or as a headless terminal script.
 
+### PyGame Script: `minirex_pygame.py`
 
+This script serves as an interactive interface to map a controller to CRSF channels. On startup, a user can open a controller and serial device by clicking on the boxes for those devices. Then, the interactive interface shows live controller values and channel values. Clicking on a controller value allows it to be mapped to any corresponding CRSF channel. Inputs may also be checked to be inverted so they always work intuitively.
+
+For regular use, the `controller_mapping.txt` file can be placed in the same directory as the PyGame script, and on startup will load the values given in the text file, auto-loading a controller configuration. This file is pre-filled with a default configuration.
+
+![PyGame Example](./images/pygame_window.png)
+
+### Headless Script: `minirex_headless.py`
+
+This script is the exact same as the above interactive PyGame, but is designed to be run through terminal. This has no interactive elements and requires the loading of mappings and devices from the `controller_mapping.txt` file.
+
+### **Protocol Note** 
+Depending on how the channel configuration is set up in the Radio TX hardware, the final output device may display different CRSF values. TBS Crossfire systems typically send a full 16 channels, though ELRS is designed to be more efficient. So it may be set up differently, read [this ELRS documentation](https://www.expresslrs.org/software/switch-config/) for switch configurations.
+
+## RX Side
+
+The output of the Raspberry Pi Pico can be primarily run as an emulated gamepad.
+
+### Emulated Gamepad
+
+Follow the instructions from mikeneiderhauser [CRSFJoystick](https://github.com/mikeneiderhauser/CRSFJoystick) repository!
+
+### PWM Output
+
+See note above in the RX wiring section.
+
+# Future Developments
+This project still has plenty of ongoing development. This is my laundry list of things to continue development on:
+* Ensure `controller_map.txt` file reads and loads seamlessly
+* Address crashes to program
+* Add any missing detail to documentation
+* Implement telemetry functionality
+* True PWM support
 
 # Acknowledgements & References
 
 This project builds off information from other great FPV coding projects, noted here and where relevant in documentation:
 
-* ELRS Community Discord 
-* Kaack [ELRS Joystick Control](https://github.com/kaack/elrs-joystick-control)
-* ZZ-Cat [CRSF for Arduino](https://github.com/ZZ-Cat/CRSFforArduino)
 * CapnBry [CRServoF](https://github.com/CapnBry/CRServoF)
 * [CRSF Working Group Specifications](https://github.com/crsf-wg/crsf)
-* mstrens [oXs_on_RP2040](https://github.com/mstrens/oXs_on_RP2040)
-* mikeneiderhauser [CRSFJoystick](https://github.com/mikeneiderhauser/CRSFJoystick)
+* ELRS Community Discord
 * [ExpressLRS Documentation](https://www.expresslrs.org/)
-* [TBS Crossfire Manual](https://www.team-blacksheep.com/media/files/tbs-crossfire-manual.pdf)
-* [Raspberry Pi Pico Documentation](https://www.raspberrypi.com/documentation/microcontrollers/)
 * Fourflies [ELRS Buddy](https://github.com/Fourflies/elrsbuddy)
+* Kaack [ELRS Joystick Control](https://github.com/kaack/elrs-joystick-control)
+* mikeneiderhauser [CRSFJoystick](https://github.com/mikeneiderhauser/CRSFJoystick)
+* mstrens [oXs_on_RP2040](https://github.com/mstrens/oXs_on_RP2040)
+* [Raspberry Pi Pico Documentation](https://www.raspberrypi.com/documentation/microcontrollers/)
+* [TBS Crossfire Manual](https://www.team-blacksheep.com/media/files/tbs-crossfire-manual.pdf)
+* ZZ-Cat [CRSF for Arduino](https://github.com/ZZ-Cat/CRSFforArduino)
+
+This project was aided by the use of Generative AI (ChatGPT).
