@@ -4,7 +4,7 @@ Mini Rex -- Named after a breed of bunny rabbits. Designed for fast reproduction
 
 This is an overly-in-depth documentation for this project.
 
-### Logan Gall
+### Logan Gall -- logangall.com
 
 # Overview
 
